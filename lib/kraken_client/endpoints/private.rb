@@ -6,10 +6,12 @@ module KrakenClient
         url      = config.base_uri + url_path(endpoint_name)
         response = request_manager.call(url, endpoint_name, args)
 
-        if response.is_a?(Array) && response.first.match(/^E[\w]+:/)
+        if response.is_a?(Array) && response.first.is_a?(String) && response.first.match(/^E[\w]+:/)
           fail ErrorResponse.new(response.first)
         elsif response == "error"
           fail ErrorResponse.new(response)
+        elsif response.is_a?(Array)
+          response
         else
           response.with_indifferent_access
         end
@@ -27,6 +29,8 @@ module KrakenClient
           :OpenPositions => :open_positions, params: [:txid],
           :Ledgers       => :ledgers,
           :QueryLedgers  => [:query_ledgers, params: [:id]],
+          :DepositMethods => [:deposit_methods, params: [:asset]],
+          :DepositAddresses => [:deposit_addresses, params: [:asset, :method, :new]],
           :TradeVolume   => :trade_volume,
           :AddOrder      => [:add_order,     params: [:pair, :type, :ordertype, :volume]],
           :CancelOrder   => [:cancel_order,  params: [:txid]],

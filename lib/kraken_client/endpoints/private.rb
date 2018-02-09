@@ -30,7 +30,7 @@ module KrakenClient
           :Ledgers       => :ledgers,
           :QueryLedgers  => [:query_ledgers, params: [:id]],
           :DepositMethods => [:deposit_methods, params: [:asset]],
-          :DepositAddresses => [:deposit_addresses, params: [:asset, :method, :new]],
+          :DepositAddresses => [:deposit_addresses, params: [:asset, :method]],
           :TradeVolume   => :trade_volume,
           :AddOrder      => [:add_order,     params: [:pair, :type, :ordertype, :volume]],
           :CancelOrder   => [:cancel_order,  params: [:txid]],
